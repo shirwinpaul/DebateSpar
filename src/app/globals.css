@@ -1,0 +1,97 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+:root {
+  /* Dark (default) */
+  --bg: #0b1120;
+  --bg-elev: #131c31;
+  --bg-elev-2: #1c2742;
+  --border: #2a3656;
+  --fg: #eef2fb;
+  --fg-muted: #a7b2cc;
+  --prop: #4aa5ff;
+  --prop-strong: #1f7fe6;
+  --opp: #ff5c77;
+  --opp-strong: #e0304e;
+  --gold: #f5c542;
+  --gold-fg: #1a1300;
+  --spot: rgba(245, 197, 66, 0.10);
+  --chart: #b8860b; /* validated single-series chart colour (dark) */
+  color-scheme: dark;
+}
+:root.light {
+  --bg: #f4f6fb;
+  --bg-elev: #ffffff;
+  --bg-elev-2: #e9eef8;
+  --border: #cfd7e8;
+  --fg: #0d1526;
+  --fg-muted: #45506a;
+  --prop: #0a5fc2;
+  --prop-strong: #084c9b;
+  --opp: #c01a37;
+  --opp-strong: #9b142c;
+  --gold: #8a6300;
+  --gold-fg: #ffffff;
+  --spot: rgba(168, 120, 0, 0.10);
+  --chart: #8a6300; /* validated single-series chart colour (light) */
+  color-scheme: light;
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-elev: var(--bg-elev);
+  --color-elev-2: var(--bg-elev-2);
+  --color-line: var(--border);
+  --color-fg: var(--fg);
+  --color-muted: var(--fg-muted);
+  --color-prop: var(--prop);
+  --color-prop-strong: var(--prop-strong);
+  --color-opp: var(--opp);
+  --color-opp-strong: var(--opp-strong);
+  --color-gold: var(--gold);
+  --color-gold-fg: var(--gold-fg);
+  --font-display: var(--font-bebas), var(--font-inter), sans-serif;
+  --font-sans: var(--font-inter), var(--font-noto-tamil), var(--font-noto-deva), system-ui, sans-serif;
+}
+
+html, body { background: var(--bg); color: var(--fg); }
+body { font-family: var(--font-sans); min-height: 100vh; }
+
+.spotlight {
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, var(--spot), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 15% 30%, color-mix(in srgb, var(--prop) 12%, transparent), transparent 70%),
+    radial-gradient(ellipse 40% 40% at 85% 30%, color-mix(in srgb, var(--opp) 12%, transparent), transparent 70%);
+}
+
+:focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; border-radius: 6px; }
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  border-radius: .75rem; padding: .65rem 1.1rem; font-weight: 600;
+  transition: transform .08s ease, background-color .15s ease, border-color .15s, opacity .15s;
+  min-height: 44px; cursor: pointer;
+}
+.btn:active:not(:disabled) { transform: scale(.96); }
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-gold { background: var(--gold); color: var(--gold-fg); }
+.btn-gold:hover:not(:disabled) { filter: brightness(1.08); }
+.btn-ghost { background: var(--bg-elev-2); color: var(--fg); border: 1px solid var(--border); }
+.btn-ghost:hover:not(:disabled) { border-color: var(--gold); }
+.card { background: var(--bg-elev); border: 1px solid var(--border); border-radius: 1rem; }
+.input { min-height: 44px; width: 100%; border-radius: .6rem; border: 1px solid var(--border); background: var(--bg-elev-2); padding: .5rem .75rem; color: var(--fg); }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+
+/* Print / "Download report" */
+.print-only { display: none; }
+@media print {
+  :root, :root.light { --bg: #fff; --bg-elev: #fff; --bg-elev-2: #f3f3f3; --fg: #000; --fg-muted: #333; --border: #bbb; }
+  .no-print { display: none !important; }
+  .print-only { display: block !important; }
+  .card { break-inside: avoid; box-shadow: none; }
+  body { background: #fff; }
+}
